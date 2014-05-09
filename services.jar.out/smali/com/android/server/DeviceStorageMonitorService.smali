@@ -3082,6 +3082,7 @@
     const-string v6, "android.settings.INTERNAL_STORAGE_SETTINGS"
 
     :goto_0
+    const-string v6, "miui.intent.action.GARBAGE_CLEANUP"
     invoke-direct {v2, v6}, Landroid/content/Intent;-><init>(Ljava/lang/String;)V
 
     .line 638
@@ -3164,6 +3165,8 @@
     iput v6, v4, Landroid/app/Notification;->flags:I
 
     .line 654
+    invoke-direct {p0, v4}, Lcom/android/server/DeviceStorageMonitorService;->useMiuiIconForNotification(Landroid/app/Notification;)V
+
     iget-object v6, p0, Lcom/android/server/DeviceStorageMonitorService;->mContext:Landroid/content/Context;
 
     invoke-virtual {v4, v6, v5, v0, v1}, Landroid/app/Notification;->setLatestEventInfo(Landroid/content/Context;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Landroid/app/PendingIntent;)V
@@ -3570,4 +3573,30 @@
     invoke-direct {p0, v1, v2, v3}, Lcom/android/server/DeviceStorageMonitorService;->postCheckMemoryMsg(ZJ)V
 
     goto :goto_0
+.end method
+
+.method private useMiuiIconForNotification(Landroid/app/Notification;)V
+    .locals 2
+    .parameter "notification"
+
+    .prologue
+    const v0, 0x6020361
+
+    iput v0, p1, Landroid/app/Notification;->icon:I
+
+    iget-object v0, p0, Lcom/android/server/DeviceStorageMonitorService;->mContext:Landroid/content/Context;
+
+    invoke-virtual {v0}, Landroid/content/Context;->getResources()Landroid/content/res/Resources;
+
+    move-result-object v0
+
+    const v1, 0x6020360
+
+    invoke-static {v0, v1}, Landroid/graphics/BitmapFactory;->decodeResource(Landroid/content/res/Resources;I)Landroid/graphics/Bitmap;
+
+    move-result-object v0
+
+    iput-object v0, p1, Landroid/app/Notification;->largeIcon:Landroid/graphics/Bitmap;
+
+    return-void
 .end method
